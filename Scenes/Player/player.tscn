@@ -39,6 +39,11 @@ properties/6/replication_mode = 1
 [sub_resource type="Resource" id="Resource_jlvik"]
 script = ExtResource("4_0u5uq")
 
+[sub_resource type="CylinderMesh" id="CylinderMesh_m3ycw"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_m3ycw"]
+size = Vector3(2.09, 1, 1)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fvyv6"]
 shader = ExtResource("4_dd0ac")
 shader_parameter/texture_mode = 0
@@ -54,62 +59,6 @@ shader_parameter/brightness = 0.0
 shader_parameter/average = 0.0
 shader_parameter/palette_mode = 0
 shader_parameter/palette = ExtResource("5_0u5uq")
-
-[sub_resource type="BoxMesh" id="BoxMesh_74mp2"]
-size = Vector3(10, 10, 1)
-
-[sub_resource type="Shader" id="Shader_jhyir"]
-code = "// Godot 4.4, Forward+ or Mobile
-// Based quite closely on shader by Digvijaysinh Gohil
-// See https://www.youtube.com/watch?v=-SXJvpbFJ7M&ab_channel=DigvijaysinhGohil
-shader_type spatial;
-render_mode unshaded, fog_disabled;
-
-uniform sampler2D screen_texture : source_color, hint_screen_texture;
-uniform sampler2D depth_texture : hint_depth_texture, repeat_disable;
-uniform float sensitivity: hint_range(0.0, 3.0, 0.01);
-uniform float outline_thickness: hint_range(0.0, 2.0, 0.01);
-uniform float step_threshold: hint_range(0.0, 1.0, 0.01);
-uniform vec3 outline_color: source_color;
-
-void vertex() {
-	POSITION = vec4(VERTEX.xy, 1.0, 1.0);
-}
-
-float DepthVS(vec2 uv, mat4 inv_projection_mat) {
-	float depth = texture(depth_texture, uv).r;
-	return 1. / (depth * inv_projection_mat[2].w + inv_projection_mat[3].w);
-}
-
-void fragment() {
-	float thickness = outline_thickness * 0.001;
-	float depth = DepthVS(SCREEN_UV, INV_PROJECTION_MATRIX);
-	
-	// Check the depth in the four cardinal and four diagonal directions to determine whether the
-	// current pixel is on an edge
-	float border_r = DepthVS(SCREEN_UV + vec2(thickness, 0), INV_PROJECTION_MATRIX) - depth;
-	float border_l = DepthVS(SCREEN_UV + vec2(-thickness, 0), INV_PROJECTION_MATRIX) - depth;
-	float border_t = DepthVS(SCREEN_UV + vec2(0, thickness), INV_PROJECTION_MATRIX) - depth;
-	float border_b = DepthVS(SCREEN_UV + vec2(0, -thickness), INV_PROJECTION_MATRIX) - depth;
-	float border_rt = DepthVS(SCREEN_UV + vec2(thickness, thickness), INV_PROJECTION_MATRIX) - depth;
-	float border_rb = DepthVS(SCREEN_UV + vec2(thickness, -thickness), INV_PROJECTION_MATRIX) - depth;
-	float border_lt = DepthVS(SCREEN_UV + vec2(-thickness, thickness), INV_PROJECTION_MATRIX) - depth;
-	float border_lb = DepthVS(SCREEN_UV + vec2(-thickness, thickness), INV_PROJECTION_MATRIX) - depth;
-	
-	float outline = clamp(((border_r + border_l + border_t + border_b + border_rt + border_rb + border_lt + border_lb) * sensitivity) / 8. , 0., 1.);
-	outline = smoothstep(0, step_threshold, outline);
-
-	ALBEDO = outline * outline_color;
-	ALPHA = outline;
-}"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_oikmp"]
-render_priority = 0
-shader = SubResource("Shader_jhyir")
-shader_parameter/sensitivity = 2.999999932944
-shader_parameter/outline_thickness = 0.0999999977648
-shader_parameter/step_threshold = 0.5999999865888
-shader_parameter/outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_xc2g5"]
 
@@ -131,7 +80,7 @@ gradient = SubResource("Gradient_oqlhh")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_74mp2"]
 
-[node name="Player" type="RigidBody3D" unique_id=1534641321 node_paths=PackedStringArray("hand", "flashlight", "ground_cast", "player_stats", "inventory_ui", "player_ui", "multiplayer_name", "body_mesh", "hot_mic") groups=["Player"]]
+[node name="Player" type="RigidBody3D" unique_id=1534641321 node_paths=PackedStringArray("hand", "hand_target", "flashlight", "ground_cast", "player_stats", "inventory_ui", "player_ui", "multiplayer_name", "body_mesh", "hot_mic") groups=["Player"]]
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
@@ -142,8 +91,9 @@ use_fov_change = true
 use_headbob = true
 bob_freq = 2.2
 bob_amp = 0.04
-hand_drag = 100.0
-hand = NodePath("Head/PhantomCamera3D/Hand")
+hand_drag = 1.0
+hand = NodePath("Head/Hand")
+hand_target = NodePath("Head/PhantomCamera3D/Hand Target")
 flashlight_drag = 5.0
 flashlight = NodePath("Flashlight")
 flashlight_toggle = true
@@ -200,16 +150,31 @@ script = ExtResource("3_dd0ac")
 tween_resource = SubResource("Resource_jlvik")
 metadata/_custom_type_script = "uid://csjccrhj5wnx7"
 
-[node name="Hand" type="Node3D" parent="Head/PhantomCamera3D" unique_id=1334608618]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22633636, -0.16933966, 0)
+[node name="Hand Target" type="Marker3D" parent="Head/PhantomCamera3D" unique_id=980555988]
+transform = Transform3D(0.98195165, 0, 0.18913214, 0, 1, 0, -0.18913214, 0, 0.98195165, 0.37333894, -0.083161, -0.5903671)
 
-[node name="Gun" type="Node3D" parent="Head/PhantomCamera3D/Hand" unique_id=638969314]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Head/PhantomCamera3D/Hand Target" unique_id=2044965770]
+transform = Transform3D(0.18445112, -0.004519772, 0.013504827, -0.013352458, 0.0061139194, 0.18441623, -0.0049518123, -0.18484378, 0.00576956, 0.033461124, -0.081220984, -0.20568109)
+visible = false
+mesh = SubResource("CylinderMesh_m3ycw")
+
+[node name="Hand" type="Node3D" parent="Head" unique_id=1334608618]
+transform = Transform3D(0.9973902, 0.0005620209, 0.0721969, 0.0018257343, 0.9994536, -0.033002567, -0.072176, 0.03304825, 0.99684423, 0.36729527, -0.16438198, -0.41430616)
+
+[node name="Gun" type="Node3D" parent="Head/Hand" unique_id=638969314 node_paths=PackedStringArray("gun_cast")]
 script = ExtResource("3_oikmp")
+gun_cast = NodePath("Gun Cast")
 
-[node name="Gun Cast" type="RayCast3D" parent="Head/PhantomCamera3D/Hand/Gun" unique_id=1069050041]
+[node name="Gun Cast" type="ShapeCast3D" parent="Head/Hand/Gun" unique_id=275729393]
+transform = Transform3D(1.0000006, 1.1641532e-09, 6.7055225e-08, 0, 1, 0, -7.450581e-09, 0, 1.0000006, 0, 0, 0)
+shape = SubResource("BoxShape3D_m3ycw")
 target_position = Vector3(0, 0, -5)
 collide_with_areas = true
 debug_shape_custom_color = Color(1, 0, 0, 1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Head/Hand/Gun/Gun Cast" unique_id=430703342]
+transform = Transform3D(0.18445112, -0.004519772, 0.013504827, -0.013352458, 0.0061139194, 0.18441623, -0.0049518123, -0.18484378, 0.00576956, 0.033461124, -0.081220984, -0.20568109)
+mesh = SubResource("CylinderMesh_m3ycw")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=813920420]
 unique_name_in_owner = true
@@ -234,12 +199,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.67939, 0)
 top_level = true
 cull_mask = 524287
 current = true
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Camera3D" unique_id=1819258933]
-transform = Transform3D(1000, 0, 0, 0, 384.88, 0, 0, 0, 111.85, 0, 0, 0)
-visible = false
-mesh = SubResource("BoxMesh_74mp2")
-surface_material_override/0 = SubResource("ShaderMaterial_oikmp")
 
 [node name="PhantomCameraHost" type="Node" parent="SubViewportContainer/SubViewport/Camera3D" unique_id=741297041]
 process_priority = 300

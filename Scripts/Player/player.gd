@@ -32,6 +32,7 @@ var t_bob = 0.0
 ##higher number means quicker follow
 @export var hand_drag : float
 @export var hand : Node3D
+@export var hand_target : Marker3D
 @export var flashlight_drag : float
 @export var flashlight : SpotLight3D
 ##toggle light on and off
@@ -147,15 +148,18 @@ func _process(delta):
 	if(main_player):
 		_check_for_voice()
 	
-	#FLASHLIGHT
-	_handle_flashlight(delta)
-	_handle_hand_movement(delta)
+
 func _physics_process(delta):
 	if(main_player):
 		if(!database.pause_game):
 			#movement
 			grounded = ground_cast.is_colliding()
 			_handle_movement(delta)
+	#flashlight
+	_handle_flashlight(delta)
+	
+	#hand
+	_handle_hand_movement(delta)
 
 ##CURRENTLY UNUSED
 #func _set_move_state(next_move_state:int):
@@ -176,9 +180,9 @@ func _handle_flashlight(delta):
 	flashlight.rotation.x = lerp_angle(flashlight.rotation.x, p_cam.rotation.x, flashlight_drag * delta)
 
 func _handle_hand_movement(delta):
-	pass
-	#hand.rotation.y = lerp_angle(hand.rotation.y, head.rotation.y, hand_drag * delta)
-	#hand.rotation.x = lerp_angle(hand.rotation.x, p_cam.rotation.x, hand_drag * delta)
+	#TODO make this better
+	hand.rotation.x = hand_target.global_rotation.x
+
 #region voice chat
 func _record_voice(is_recording:bool) -> void:
 	# If talking, suppress all other audio or voice comms from the Steam UI
@@ -237,11 +241,9 @@ func _process_voice_data(voice_data: PackedByteArray) -> void:
 func _input(event):
 	#region Mouse Head Rotation
 	if event is InputEventMouseMotion && main_player && !database.pause_game && !inventory_ui.is_open:
-			head.rotate_y(-event.relative.x * SENSITIVITY)
-			p_cam.rotate_x(-event.relative.y * SENSITIVITY)
-			p_cam.rotation.x = clamp(p_cam.rotation.x, deg_to_rad(-40), deg_to_rad(60))
-	#endregion
-	
+		head.rotate_y(-event.relative.x * SENSITIVITY)
+		p_cam.rotate_x(-event.relative.y * SENSITIVITY)
+		p_cam.rotation.x = clamp(p_cam.rotation.x, deg_to_rad(-40), deg_to_rad(60))
 	#region voice chat
 	if (main_player):
 		if(event.is_action_pressed("toggle mic")):
