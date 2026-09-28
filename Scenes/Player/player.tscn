@@ -9,6 +9,7 @@
 [ext_resource type="Shader" uid="uid://c0cmltoj615n2" path="res://Scripts/Shaders/dither_and_gradient_2.gdshader" id="4_dd0ac"]
 [ext_resource type="Texture2D" uid="uid://bt47elcjsrylq" path="res://Assets/Gradients/Screenshot 2026-08-12 174812.png" id="5_0u5uq"]
 [ext_resource type="FontFile" uid="uid://d0r3fxyfh4kne" path="res://Assets/Fonts/Jacquard24-Regular.ttf" id="8_jlvik"]
+[ext_resource type="Texture2D" uid="uid://717rw2kyj14g" path="res://Imports/TEMP/UI/Crosshairs_Red.svg.webp" id="10_06tpx"]
 [ext_resource type="PackedScene" uid="uid://b5nlo21oi5f06" path="res://Scenes/UI/inventory_ui.tscn" id="10_jhyir"]
 [ext_resource type="Script" uid="uid://b2ohe8lsij56a" path="res://Scripts/Player/player_stats.gd" id="12_oikmp"]
 [ext_resource type="PackedScene" uid="uid://blhp7042rtwtf" path="res://Scenes/UI/hand_slot.tscn" id="15_dey5f"]
@@ -41,8 +42,8 @@ script = ExtResource("4_0u5uq")
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_m3ycw"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_m3ycw"]
-size = Vector3(2.09, 1, 1)
+[sub_resource type="BoxShape3D" id="BoxShape3D_n0nn8"]
+size = Vector3(1, 1, 3.5548096)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fvyv6"]
 shader = ExtResource("4_dd0ac")
@@ -77,8 +78,6 @@ colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_dyyqa"]
 gradient = SubResource("Gradient_oqlhh")
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_74mp2"]
 
 [node name="Player" type="RigidBody3D" unique_id=1534641321 node_paths=PackedStringArray("hand", "hand_target", "flashlight", "ground_cast", "player_stats", "inventory_ui", "player_ui", "multiplayer_name", "body_mesh", "hot_mic") groups=["Player"]]
 axis_lock_angular_x = true
@@ -161,20 +160,19 @@ mesh = SubResource("CylinderMesh_m3ycw")
 [node name="Hand" type="Node3D" parent="Head" unique_id=1334608618]
 transform = Transform3D(0.9973902, 0.0005620209, 0.0721969, 0.0018257343, 0.9994536, -0.033002567, -0.072176, 0.03304825, 0.99684423, 0.36729527, -0.16438198, -0.41430616)
 
-[node name="Gun" type="Node3D" parent="Head/Hand" unique_id=638969314 node_paths=PackedStringArray("gun_cast")]
+[node name="Gun" type="Node3D" parent="Head/Hand" unique_id=638969314]
 script = ExtResource("3_oikmp")
-gun_cast = NodePath("Gun Cast")
 
-[node name="Gun Cast" type="ShapeCast3D" parent="Head/Hand/Gun" unique_id=275729393]
-transform = Transform3D(1.0000006, 1.1641532e-09, 6.7055225e-08, 0, 1, 0, -7.450581e-09, 0, 1.0000006, 0, 0, 0)
-shape = SubResource("BoxShape3D_m3ycw")
-target_position = Vector3(0, 0, -5)
-collide_with_areas = true
-debug_shape_custom_color = Color(1, 0, 0, 1)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Head/Hand/Gun/Gun Cast" unique_id=430703342]
-transform = Transform3D(0.18445112, -0.004519772, 0.013504827, -0.013352458, 0.0061139194, 0.18441623, -0.0049518123, -0.18484378, 0.00576956, 0.033461124, -0.081220984, -0.20568109)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Head/Hand/Gun" unique_id=430703342]
+transform = Transform3D(0.18445125, -0.0045197895, 0.013504838, -0.013352459, 0.0061139194, 0.18441626, -0.004951819, -0.18484391, 0.0057695634, 0.033461094, -0.081220984, -0.2056812)
 mesh = SubResource("CylinderMesh_m3ycw")
+
+[node name="Gun Range" type="Area3D" parent="Head/Hand/Gun" unique_id=1287907642 groups=["Gun"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Head/Hand/Gun/Gun Range" unique_id=1228689344 groups=["Gun"]]
+transform = Transform3D(1.0000181, 1.14087015e-08, 1.6540289e-06, -1.6065314e-08, 1, -2.9802322e-08, -3.5762787e-07, 0, 1.000014, -4.7683716e-07, 0, -2.121527)
+shape = SubResource("BoxShape3D_n0nn8")
+debug_color = Color(0.97382754, 0, 0.43459788, 0.41960785)
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=813920420]
 unique_name_in_owner = true
@@ -257,9 +255,9 @@ unique_name_in_owner = true
 offset_left = 560.0
 offset_top = 304.0
 offset_right = 591.30646
-offset_bottom = 330.0
+offset_bottom = 333.0
 mouse_filter = 2
-texture = SubResource("CompressedTexture2D_74mp2")
+texture = ExtResource("10_06tpx")
 expand_mode = 1
 
 [node name="HandSlot" parent="Player UI" unique_id=607667247 instance=ExtResource("15_dey5f")]

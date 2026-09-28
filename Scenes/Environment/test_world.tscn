@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://dnqa7pnc1kwyb" path="res://Scripts/Networks/network_manager.gd" id="3_bx3ek"]
 [ext_resource type="Shader" uid="uid://dqbq6by4bwaim" path="res://Scripts/Shaders/AuroraSky.gdshader" id="4_bx3ek"]
 [ext_resource type="Texture2D" uid="uid://bt47elcjsrylq" path="res://Assets/Gradients/Screenshot 2026-08-12 174812.png" id="5_qh65d"]
+[ext_resource type="PackedScene" uid="uid://mc5fqdr6r5cr" path="res://Scenes/NPC/npc_test_dummy.tscn" id="6_qh65d"]
 
 [sub_resource type="Gradient" id="Gradient_mrn4h"]
 colors = PackedColorArray(0.047058824, 0.8745098, 1, 1, 0, 0, 1, 1)
@@ -232,6 +233,12 @@ surface_material_override/0 = SubResource("StandardMaterial3D_4tm0c")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Collisions/Wall" unique_id=1284278957 groups=["Land"]]
 shape = SubResource("BoxShape3D_dyyqa")
+
+[node name="NPC Test Dummy" parent="." unique_id=764042304 instance=ExtResource("6_qh65d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5081208, 9.364121)
+
+[node name="NPC Test Dummy2" parent="." unique_id=503861181 instance=ExtResource("6_qh65d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0416183, 1.5081208, 9.364121)
 
 [connection signal="pressed" from="Multiplayer HUD/Panel/VBoxContainer/Host" to="Game Manager" method="attempt_host"]
 [connection signal="pressed" from="Multiplayer HUD/Panel/VBoxContainer/Join As Client" to="Game Manager" method="attempt_join_as_client"]

@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://mc5fqdr6r5cr"]
+
+[ext_resource type="Script" uid="uid://bc2eokok7jnvj" path="res://Scripts/NPC/npc_behavior.gd" id="1_gbrt3"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m3ycw"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_n0nn8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dvdpe"]
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 8.01
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_n0nn8"]
+
+[node name="NPC Test Dummy" type="RigidBody3D" unique_id=764042304 groups=["NPC"]]
+script = ExtResource("1_gbrt3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1287732666 groups=["NPC"]]
+shape = SubResource("CapsuleShape3D_m3ycw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1400666505 groups=["NPC"]]
+mesh = SubResource("CapsuleMesh_n0nn8")
+surface_material_override/0 = SubResource("StandardMaterial3D_dvdpe")
+
+[node name="Hurt Box" type="Area3D" parent="." unique_id=759923700 groups=["NPC"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurt Box" unique_id=113339 groups=["NPC"]]
+shape = SubResource("CapsuleShape3D_n0nn8")
+debug_color = Color(0, 0.8784314, 0.4745098, 1)
+
+[connection signal="area_entered" from="Hurt Box" to="." method="_on_hurt_box_area_entered"]
+[connection signal="area_exited" from="Hurt Box" to="." method="_on_hurt_box_area_exited"]
