@@ -3,7 +3,6 @@ extends Node
 var player_status_path = "res://DATA/STATUS.json"
 var player_inventory_path = "res://DATA/INVENTORY.json"
 @export var autosave_enabled : bool
-@export var daytime : bool
 
 @export_category("Multiplayer")
 @export var players : Array[RigidBody3D]

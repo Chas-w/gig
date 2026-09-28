@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://biwh4nch7tw0g"]
 
-[ext_resource type="AudioStream" uid="uid://cc3ggulrcjvee" path="res://Imports/TEMP/Audio/483168__kevp888__190809_0562_fr_cricketsandwind.wav" id="1_4tm0c"]
 [ext_resource type="Script" uid="uid://47y23r8uek7m" path="res://Scripts/game_manager.gd" id="2_6teb0"]
 [ext_resource type="Script" uid="uid://dnqa7pnc1kwyb" path="res://Scripts/Networks/network_manager.gd" id="3_bx3ek"]
 [ext_resource type="Shader" uid="uid://dqbq6by4bwaim" path="res://Scripts/Shaders/AuroraSky.gdshader" id="4_bx3ek"]
@@ -60,11 +59,6 @@ albedo_texture = SubResource("NoiseTexture2D_6teb0")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=384384294]
 environment = SubResource("Environment_8i32u")
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1649125312]
-unique_name_in_owner = true
-stream = ExtResource("1_4tm0c")
-autoplay = true
 
 [node name="Game Manager" type="Node" parent="." unique_id=1116847051]
 script = ExtResource("2_6teb0")

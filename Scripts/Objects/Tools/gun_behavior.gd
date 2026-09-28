@@ -2,20 +2,34 @@ extends Node3D
 
 @export var gun_held : bool
 @export var npcs_in_range : Array[RigidBody3D]
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	#print(npcs_in_range)
-	pass
+##far. mid, close damage
+@export var shot_damage : Vector3
+##far, close range
+@export var shot_range : Vector2
 
 func _input(event: InputEvent) -> void:
-	pass
+	if (event.is_action_pressed("shoot")):
+		_shot_fired()
 
 func _shot_fired():
-	pass
+	if(npcs_in_range.size() > 0):
+		for i in npcs_in_range.size():
+			if(npcs_in_range[i] != null):
+				_process_damage(i)
+			_refresh_range(i)
+
+func _process_damage(i):
+	var distance_away = global_transform.origin.distance_to(npcs_in_range[i].global_transform.origin)
+	if(distance_away >= shot_range.x):
+		npcs_in_range[i]._injure_me(shot_damage.x)
+		print("far shot")
+	if(distance_away < shot_range.x && distance_away >= shot_range.y):
+		npcs_in_range[i]._injure_me(shot_damage.y)
+		print("mid shot")
+	if(distance_away < shot_range.y):
+		npcs_in_range[i]._injure_me(shot_damage.z)
+		print("close shot")
+
+func _refresh_range(i):
+	if(npcs_in_range[i] == null):
+		npcs_in_range.remove_at(i)
