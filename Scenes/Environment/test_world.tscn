@@ -30,10 +30,12 @@ background_mode = 2
 background_energy_multiplier = 0.1
 sky = SubResource("Sky_e35u1")
 glow_enabled = true
+glow_normalized = true
+glow_strength = 1.2
 glow_bloom = 1.0
 fog_light_color = Color(0, 0, 0, 1)
 volumetric_fog_enabled = true
-volumetric_fog_density = 0.1394
+volumetric_fog_density = 0.0926
 volumetric_fog_albedo = Color(0.14453125, 0.14453125, 0.14453125, 1)
 volumetric_fog_temporal_reprojection_amount = 0.715
 
