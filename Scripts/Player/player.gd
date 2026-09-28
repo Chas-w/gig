@@ -32,6 +32,7 @@ var t_bob = 0.0
 ##higher number means quicker follow
 @export var hand_drag : float
 @export var hand : Node3D
+@export var flashlight_drag : float
 @export var flashlight : SpotLight3D
 ##toggle light on and off
 @export var flashlight_toggle : bool 
@@ -147,7 +148,7 @@ func _process(delta):
 		_check_for_voice()
 	
 	#FLASHLIGHT
-	_handle_flashlight()
+	_handle_flashlight(delta)
 	_handle_hand_movement(delta)
 func _physics_process(delta):
 	if(main_player):
@@ -167,15 +168,17 @@ func _physics_process(delta):
 	#match(next_move_state):
 		#pass
 
-func _handle_flashlight():
+func _handle_flashlight(delta):
 	flashlight.visible = flashlight_toggle
 	if(Input.is_action_just_pressed("toggle light") && main_player):
 		flashlight_toggle = !flashlight_toggle
-
+	flashlight.rotation.y = lerp_angle(flashlight.rotation.y, head.rotation.y, flashlight_drag * delta)
+	flashlight.rotation.x = lerp_angle(flashlight.rotation.x, p_cam.rotation.x, flashlight_drag * delta)
 
 func _handle_hand_movement(delta):
-	hand.rotation.y = lerp_angle(hand.rotation.y, head.rotation.y, hand_drag * delta)
-	hand.rotation.x =lerp_angle(hand.rotation.x, p_cam.rotation.x, hand_drag * delta)
+	pass
+	#hand.rotation.y = lerp_angle(hand.rotation.y, head.rotation.y, hand_drag * delta)
+	#hand.rotation.x = lerp_angle(hand.rotation.x, p_cam.rotation.x, hand_drag * delta)
 #region voice chat
 func _record_voice(is_recording:bool) -> void:
 	# If talking, suppress all other audio or voice comms from the Steam UI

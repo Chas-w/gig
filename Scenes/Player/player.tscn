@@ -142,9 +142,10 @@ use_fov_change = true
 use_headbob = true
 bob_freq = 2.2
 bob_amp = 0.04
-hand_drag = 5.0
-hand = NodePath("Hand")
-flashlight = NodePath("Hand/Flashlight")
+hand_drag = 100.0
+hand = NodePath("Head/PhantomCamera3D/Hand")
+flashlight_drag = 5.0
+flashlight = NodePath("Flashlight")
 flashlight_toggle = true
 ground_cast = NodePath("Body/Ground Cast")
 gravity = 1.5
@@ -166,11 +167,8 @@ billboard = 1
 text = "NAME"
 font_size = 42
 
-[node name="Hand" type="Node3D" parent="." unique_id=1334608618]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.67939, 0)
-
-[node name="Flashlight" type="SpotLight3D" parent="Hand" unique_id=411765551]
-transform = Transform3D(0.9786595, 0, 0.20548867, -0.0120171765, 0.9982886, 0.057232957, -0.20513697, -0.058480974, 0.97698456, 0, -0.23399496, -0.49928784)
+[node name="Flashlight" type="SpotLight3D" parent="." unique_id=411765551]
+transform = Transform3D(0.99909276, 0, 0.0425876, 0, 1, 0, -0.0425876, 0, 0.99909276, 0.20508514, 1.67939, -0.4985473)
 light_energy = 5.016
 light_indirect_energy = 16.0
 light_projector = ExtResource("4_74mp2")
@@ -181,7 +179,7 @@ spot_attenuation = 0.24
 spot_angle = 43.67
 spot_angle_attenuation = 5.2780294
 
-[node name="spread" type="SpotLight3D" parent="Hand/Flashlight" unique_id=463517748]
+[node name="spread" type="SpotLight3D" parent="Flashlight" unique_id=463517748]
 transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.99999994, 0, 0, 0)
 light_energy = 0.165
 light_indirect_energy = 16.0
@@ -192,14 +190,6 @@ spot_attenuation = -0.67
 spot_angle = 65.94
 spot_angle_attenuation = 2.378415
 
-[node name="Gun" type="Node3D" parent="Hand" unique_id=638969314]
-script = ExtResource("3_oikmp")
-
-[node name="Gun Cast" type="RayCast3D" parent="Hand/Gun" unique_id=1069050041]
-target_position = Vector3(0, 0, -10)
-collide_with_areas = true
-debug_shape_custom_color = Color(1, 0, 0, 1)
-
 [node name="Head" type="Node3D" parent="." unique_id=1273961367]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.67939, 0)
@@ -209,6 +199,17 @@ unique_name_in_owner = true
 script = ExtResource("3_dd0ac")
 tween_resource = SubResource("Resource_jlvik")
 metadata/_custom_type_script = "uid://csjccrhj5wnx7"
+
+[node name="Hand" type="Node3D" parent="Head/PhantomCamera3D" unique_id=1334608618]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22633636, -0.16933966, 0)
+
+[node name="Gun" type="Node3D" parent="Head/PhantomCamera3D/Hand" unique_id=638969314]
+script = ExtResource("3_oikmp")
+
+[node name="Gun Cast" type="RayCast3D" parent="Head/PhantomCamera3D/Hand/Gun" unique_id=1069050041]
+target_position = Vector3(0, 0, -5)
+collide_with_areas = true
+debug_shape_custom_color = Color(1, 0, 0, 1)
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=813920420]
 unique_name_in_owner = true
