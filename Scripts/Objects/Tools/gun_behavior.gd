@@ -11,6 +11,10 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	#print(npcs_in_range)
+	pass
+
+func _input(event: InputEvent) -> void:
 	pass
 
 func _shot_fired():
