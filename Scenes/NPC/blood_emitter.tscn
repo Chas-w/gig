@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://bjyw36x5vyupq"]
+
+[ext_resource type="Shader" uid="uid://cc7cqysv5wv2g" path="res://Scripts/Shaders/blood_fountain.tres" id="1_duenb"]
+[ext_resource type="Script" uid="uid://dy2u0kxas1tyt" path="res://Scripts/NPC/blood_burst.gd" id="1_vcqm7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o4uhr"]
+render_priority = 0
+shader = ExtResource("1_duenb")
+
+[sub_resource type="Curve" id="Curve_vcqm7"]
+_data = [Vector2(0.00707547, 0), 0.0, 0.0, 0, 0, Vector2(0.21933961, 0.92397654), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_85mwm"]
+curve = SubResource("Curve_vcqm7")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_oqlhh"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+use_rotation_3d = true
+rotation_3d_min = Vector3(0, 0, 0)
+rotation_3d_max = Vector3(0, 0, 0)
+inherit_velocity_ratio = 0.1
+direction = Vector3(0, 1, 1)
+spread = 0.0
+initial_velocity_min = 1.0
+initial_velocity_max = 10.0
+scale_curve = SubResource("CurveTexture_85mwm")
+collision_mode = 2
+sub_emitter_mode = 3
+sub_emitter_amount_at_collision = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_dyyqa"]
+size = Vector2(0.5, 0.5)
+
+[node name="Blood Emitter" type="Node3D" unique_id=939202787 node_paths=PackedStringArray("blood", "downcast", "frontcast")]
+script = ExtResource("1_vcqm7")
+blood = NodePath("Blood Fountain")
+downcast = NodePath("Blood Fountain/Downcast")
+frontcast = NodePath("Blood Fountain/Frontcast")
+
+[node name="Blood Fountain" type="GPUParticles3D" parent="." unique_id=152038659]
+material_override = SubResource("ShaderMaterial_o4uhr")
+emitting = false
+amount = 200
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_oqlhh")
+draw_pass_1 = SubResource("QuadMesh_dyyqa")
+
+[node name="Downcast" type="RayCast3D" parent="Blood Fountain" unique_id=473045679]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.525925)
+target_position = Vector3(0, -100, 0)
+
+[node name="Frontcast" type="RayCast3D" parent="Blood Fountain" unique_id=521102097]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 1, 2.525925)
+target_position = Vector3(0, -100, 0)

@@ -3,6 +3,8 @@ extends RigidBody3D
 @export_category("Health Stuff")
 @export_range(0,100,1) var max_health := 10
 var health
+var blood_splatter = preload("res://Scenes/NPC/blood_decal.tscn")
+var blood_emitter = load("res://Scenes/NPC/blood_emitter.tscn")
 @export var in_gun_range : bool
 @export var limbs_organs_path : Array[String]
 @export var limbs_organs : Array
@@ -33,6 +35,10 @@ func _kill_me():
 		get_tree().get_root().add_child(instance)
 		instance.global_position = global_position  
 	#TODO blood
+	var blood_burst = blood_emitter.instantiate()
+	get_tree().get_root().add_child(blood_burst)
+	blood_burst.global_transform.basis.z = -gun.global_transform.basis.z
+	blood_burst.global_position = global_position  
 	queue_free()
 	
 func _assign_organ_path():

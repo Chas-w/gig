@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://c1n0rykuavxol"]
+
+[ext_resource type="Shader" uid="uid://bajoahgxgtn1e" path="res://Scripts/Shaders/triplaner_blood.gdshader" id="1_kcy0i"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_kcy0i"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_kcy0i"]
+fractal_weighted_strength = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ix768"]
+noise = SubResource("FastNoiseLite_kcy0i")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kcy0i"]
+render_priority = 0
+shader = ExtResource("1_kcy0i")
+shader_parameter/noise = SubResource("NoiseTexture2D_ix768")
+shader_parameter/noise_scale = 0.24
+shader_parameter/noise_shading = 1.0
+shader_parameter/intensity = 0.6310000299725
+shader_parameter/color = Color(1, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oqlhh"]
+next_pass = SubResource("ShaderMaterial_kcy0i")
+albedo_color = Color(0.5864258, 0.5625, 1, 1)
+
+[sub_resource type="GDScript" id="GDScript_kcy0i"]
+script/source = "extends MeshInstance3D
+@export var texture : DrawableTexture2D
+var material : StandardMaterial3D
+var tex_size : Vector2i = Vector2i(512,512)
+const ICON = preload(\"res://icon.svg\")
+
+func _ready():
+	material = get_surface_override_material(0)
+	material.albedo_texture = texture
+	texture.blit_rect(Rect2i(196,196,64,64), ICON)
+"
+
+[sub_resource type="DrawableTexture2D" id="DrawableTexture2D_ix768"]
+
+[sub_resource type="Gradient" id="Gradient_o4uhr"]
+offsets = PackedFloat32Array(0, 0.36976743, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0.3046875, 0, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_oqlhh"]
+noise_type = 3
+offset = Vector3(1000, 0, 0)
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_dyyqa"]
+width = 128
+height = 128
+noise = SubResource("FastNoiseLite_oqlhh")
+color_ramp = SubResource("Gradient_o4uhr")
+seamless = true
+seamless_blend_skirt = 1.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" unique_id=1221778594]
+mesh = SubResource("BoxMesh_kcy0i")
+surface_material_override/0 = SubResource("StandardMaterial3D_oqlhh")
+script = SubResource("GDScript_kcy0i")
+texture = SubResource("DrawableTexture2D_ix768")
+
+[node name="Decal" type="Decal" parent="." unique_id=1153202510]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.079589844, 0.5010677, -0.15672171)
+visible = false
+size = Vector3(1.2138672, 0.29455566, 1.3817749)
+texture_albedo = SubResource("NoiseTexture2D_dyyqa")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1769526277]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1119881, 2.763008)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1617891881]
