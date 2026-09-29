@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://sonulvt2ohk4"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_dyyqa"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_dyyqa"]
+
+[node name="TestLimbOrgan" type="RigidBody3D" unique_id=2090345196]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1975358752]
+shape = SubResource("SphereShape3D_dyyqa")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1590298870 groups=["Body_Part", "Pickup"]]
+mesh = SubResource("SphereMesh_dyyqa")

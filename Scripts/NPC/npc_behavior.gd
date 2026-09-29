@@ -1,8 +1,15 @@
 extends RigidBody3D
 
+@export_category("Health Stuff")
 @export_range(0,100,1) var max_health := 10
 var health
 @export var in_gun_range : bool
+@export var limbs_organs_path : Array[String]
+@export var limbs_organs : Array
+#:= [load("res://Imports/TEMP/Scenes/test_limb_organ.tscn")]
+
+@export_category("Movement Stuff")
+@export var aggressive : bool 
 var gun : Node3D
 
 func _ready():
@@ -12,6 +19,7 @@ func _ready():
 func _process(delta: float) -> void:
 	if(health <= 0):
 		_kill_me()
+	_assign_organ_path()
 
 func _injure_me(damage : float):
 	health -= damage
@@ -20,9 +28,18 @@ func _injure_me(damage : float):
 
 func _kill_me():
 	print(name + " is dead")
+	for i in limbs_organs.size(): 
+		var instance = limbs_organs[i].instantiate()
+		get_tree().get_root().add_child(instance)
+		instance.global_position = global_position  
 	#TODO blood
 	queue_free()
 	
+func _assign_organ_path():
+	if(limbs_organs.size() != limbs_organs_path.size()):
+		for i in limbs_organs_path.size(): 
+			limbs_organs.append(load(limbs_organs_path[i]))
+
 func _remove_from_range():
 	if(gun.npcs_in_range.size() - 1 <= 1):
 		gun.npcs_in_range.remove_at(0)

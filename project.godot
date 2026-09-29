@@ -59,6 +59,8 @@ Database=""
 Land=""
 NPC=""
 Gun=""
+Pickup=""
+Body_Part=""
 
 [input]
 

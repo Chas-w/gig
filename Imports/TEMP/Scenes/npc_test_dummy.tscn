@@ -15,6 +15,7 @@ emission_energy_multiplier = 8.01
 
 [node name="NPC Test Dummy" type="RigidBody3D" unique_id=764042304 groups=["NPC"]]
 script = ExtResource("1_gbrt3")
+limbs_organs_path = Array[String](["res://Imports/TEMP/Scenes/test_limb_organ.tscn", "res://Imports/TEMP/Scenes/test_limb_organ_alt.tscn"])
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1287732666 groups=["NPC"]]
 shape = SubResource("CapsuleShape3D_m3ycw")
