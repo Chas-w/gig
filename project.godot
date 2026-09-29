@@ -43,8 +43,7 @@ folder_colors={
 "res://Assets/": "purple",
 "res://DATA/": "purple",
 "res://Scenes/": "pink",
-"res://Scripts/": "teal",
-"res://UNUSED/": "red"
+"res://Scripts/": "teal"
 }
 
 [filesystem]
