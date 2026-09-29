@@ -22,13 +22,13 @@ func _process_damage(i):
 	var distance_away = global_transform.origin.distance_to(npcs_in_range[i].global_transform.origin)
 	if(distance_away >= shot_range.x):
 		npcs_in_range[i]._injure_me(shot_damage.x)
-		print("far shot")
+		#print("far shot")
 	if(distance_away < shot_range.x && distance_away >= shot_range.y):
 		npcs_in_range[i]._injure_me(shot_damage.y)
-		print("mid shot")
+		#print("mid shot")
 	if(distance_away < shot_range.y):
 		npcs_in_range[i]._injure_me(shot_damage.z)
-		print("close shot")
+		#print("close shot")
 
 func _refresh_range(i):
 	if(npcs_in_range[i] == null):
