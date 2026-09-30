@@ -230,7 +230,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_4tm0c")
 shape = SubResource("BoxShape3D_dyyqa")
 
 [node name="NPC Test Dummy" parent="." unique_id=764042304 instance=ExtResource("6_qh65d")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5081208, 9.364121)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.881095, 1.5081208, 9.364121)
 
 [node name="NPC Test Dummy2" parent="." unique_id=503861181 instance=ExtResource("6_qh65d")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0416183, 1.5081208, 9.364121)
