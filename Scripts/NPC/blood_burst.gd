@@ -6,8 +6,10 @@ var checked_this_downcast : Array[bool]
 var life = 2
 @export var ready_to_remove : bool
 
+func _enter_tree() -> void:
+	blood.restart(false)
+	
 func _ready():
-	blood.emitting = true
 	for i in downcasts.size(): 
 		checked_this_downcast.append(false)
 
