@@ -212,6 +212,7 @@ mesh = SubResource("BoxMesh_o4uhr")
 transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Collisions/Ground" unique_id=1938136835 groups=["Land"]]
+layers = 3
 mesh = SubResource("BoxMesh_4tm0c")
 surface_material_override/0 = SubResource("StandardMaterial3D_4tm0c")
 

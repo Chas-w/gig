@@ -13,13 +13,12 @@ emission_energy_multiplier = 8.01
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_n0nn8"]
 
-[node name="NPC Test Dummy" type="RigidBody3D" unique_id=764042304 node_paths=PackedStringArray("downcasts") groups=["NPC"]]
+[node name="NPC Test Dummy" type="RigidBody3D" unique_id=764042304 groups=["NPC"]]
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
 script = ExtResource("1_gbrt3")
 limbs_organs_path = Array[String](["res://Imports/TEMP/Scenes/test_limb_organ.tscn", "res://Imports/TEMP/Scenes/test_limb_organ_alt.tscn"])
-downcasts = [NodePath("Downcast")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1287732666 groups=["NPC"]]
 shape = SubResource("CapsuleShape3D_m3ycw")
@@ -33,14 +32,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_dvdpe")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hurt Box" unique_id=113339 groups=["NPC"]]
 shape = SubResource("CapsuleShape3D_n0nn8")
 debug_color = Color(0, 0.8784314, 0.4745098, 1)
-
-[node name="Downcast" type="RayCast3D" parent="." unique_id=1493118460]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.99528766, 2.525925)
-target_position = Vector3(0, -100, 0)
-
-[node name="Frontcast" type="RayCast3D" parent="." unique_id=414821305]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 1, 2.525925)
-target_position = Vector3(0, -100, 0)
 
 [connection signal="area_entered" from="Hurt Box" to="." method="_on_hurt_box_area_entered"]
 [connection signal="area_exited" from="Hurt Box" to="." method="_on_hurt_box_area_exited"]

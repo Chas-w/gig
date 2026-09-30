@@ -60,6 +60,7 @@ NPC=""
 Gun=""
 Pickup=""
 Body_Part=""
+Dirty=""
 
 [input]
 

@@ -33,9 +33,10 @@ sub_emitter_amount_at_collision = 1
 [sub_resource type="QuadMesh" id="QuadMesh_dyyqa"]
 size = Vector2(0.5, 0.5)
 
-[node name="Blood Emitter" type="Node3D" unique_id=939202787 node_paths=PackedStringArray("blood")]
+[node name="Blood Emitter" type="Node3D" unique_id=939202787 node_paths=PackedStringArray("blood", "downcasts")]
 script = ExtResource("1_vcqm7")
 blood = NodePath("Blood Fountain")
+downcasts = [NodePath("Downcast"), NodePath("Downcast2"), NodePath("Downcast3"), NodePath("Downcast4"), NodePath("Downcast5"), NodePath("Downcast6")]
 
 [node name="Blood Fountain" type="GPUParticles3D" parent="." unique_id=152038659]
 material_override = SubResource("ShaderMaterial_o4uhr")
@@ -47,3 +48,27 @@ explosiveness = 1.0
 randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_oqlhh")
 draw_pass_1 = SubResource("QuadMesh_dyyqa")
+
+[node name="Downcast" type="RayCast3D" parent="." unique_id=800359238]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.99528766, 0.6286104)
+target_position = Vector3(0, -100, 0)
+
+[node name="Downcast2" type="RayCast3D" parent="." unique_id=538492806]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.59271955, 0.99528766, 5.144807)
+target_position = Vector3(0, -100, 0)
+
+[node name="Downcast3" type="RayCast3D" parent="." unique_id=181636296]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7993344, 0.99528766, 2.305948)
+target_position = Vector3(0, -100, 0)
+
+[node name="Downcast4" type="RayCast3D" parent="." unique_id=80685844]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7993344, 0.99528766, 4.274086)
+target_position = Vector3(0, -100, 0)
+
+[node name="Downcast5" type="RayCast3D" parent="." unique_id=585395828]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7993344, 0.99528766, 2.9394076)
+target_position = Vector3(0, -100, 0)
+
+[node name="Downcast6" type="RayCast3D" parent="." unique_id=2038348425]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.70129466, 0.99528766, 2.9394076)
+target_position = Vector3(0, -100, 0)
