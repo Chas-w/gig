@@ -16,13 +16,17 @@ func _process(delta):
 		if(Input.is_action_just_pressed("shoot") && !cleaning):
 			cleaning = true
 			_refresh_targets()
-
+		if(Input.is_action_just_released("shoot")):
+			cleaning = false
+			
 		if(cleaning && targets.size() > 0):
 			for i in targets.size():
 				if(targets[i] != null):
 					targets[i]._clean_me(cleaning_strength)
-				if(i == targets.size() -1):
 					cleaning = false
+	else:
+		cleaning = false
+
 
 func _add_to_targets(target):
 	if(targets.size() > 0):
