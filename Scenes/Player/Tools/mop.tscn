@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://bwnvbuhk51k18"]
+
+[ext_resource type="Script" uid="uid://c7jdpglrssimo" path="res://Scripts/Objects/Tools/cleaner_behavior.gd" id="1_2jk2e"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_dyyqa"]
+height = 3.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_n0e8b"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_2jk2e"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_55ywr"]
+transparency = 1
+albedo_color = Color(1, 1, 0.30980393, 0.2784314)
+
+[node name="Mop" type="Node3D" unique_id=1022487355 groups=["Cleaner"]]
+script = ExtResource("1_2jk2e")
+
+[node name="Handle" type="MeshInstance3D" parent="." unique_id=2016546961]
+transform = Transform3D(0.11999999, 0, 0, 0, 0.4298631, -0.10875907, 0, 0.92194766, 0.050709505, 0, -0.3527301, -0.42096004)
+mesh = SubResource("CylinderMesh_dyyqa")
+
+[node name="Cleaner Zone" type="Area3D" parent="." unique_id=300068918 groups=["Cleaner"]]
+transform = Transform3D(1, 0, 0, 0, 0.96376705, -0.9063258, 0, 2.0670366, 0.42257932, 0, -0.8435284, -1.4735982)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cleaner Zone" unique_id=1999688759]
+shape = SubResource("SphereShape3D_n0e8b")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cleaner Zone" unique_id=1392452514]
+mesh = SubResource("SphereMesh_2jk2e")
+surface_material_override/0 = SubResource("StandardMaterial3D_55ywr")
+
+[connection signal="area_entered" from="Cleaner Zone" to="." method="_on_cleaner_zone_entered"]
+[connection signal="area_exited" from="Cleaner Zone" to="." method="_on_cleaner_zone_exited"]

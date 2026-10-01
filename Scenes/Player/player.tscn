@@ -8,6 +8,7 @@
 [ext_resource type="Shader" uid="uid://c0cmltoj615n2" path="res://Scripts/Shaders/dither_and_gradient_2.gdshader" id="4_dd0ac"]
 [ext_resource type="Texture2D" uid="uid://bt47elcjsrylq" path="res://Assets/Gradients/Screenshot 2026-08-12 174812.png" id="5_0u5uq"]
 [ext_resource type="PackedScene" uid="uid://1offvjmg1qyg" path="res://Scenes/Player/Tools/gun.tscn" id="5_06tpx"]
+[ext_resource type="PackedScene" uid="uid://bwnvbuhk51k18" path="res://Scenes/Player/Tools/mop.tscn" id="6_7g0yx"]
 [ext_resource type="FontFile" uid="uid://d0r3fxyfh4kne" path="res://Assets/Fonts/Jacquard24-Regular.ttf" id="8_jlvik"]
 [ext_resource type="Texture2D" uid="uid://717rw2kyj14g" path="res://Imports/TEMP/UI/Crosshairs_Red.svg.webp" id="10_06tpx"]
 [ext_resource type="PackedScene" uid="uid://b5nlo21oi5f06" path="res://Scenes/UI/inventory_ui.tscn" id="10_jhyir"]
@@ -76,13 +77,14 @@ colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_dyyqa"]
 gradient = SubResource("Gradient_oqlhh")
 
-[node name="Player" type="RigidBody3D" unique_id=1534641321 node_paths=PackedStringArray("hand", "hand_target", "flashlight", "ground_cast", "player_stats", "inventory_ui", "player_ui", "multiplayer_name", "body_mesh", "hot_mic") groups=["Player"]]
+[node name="Player" type="RigidBody3D" unique_id=1534641321 node_paths=PackedStringArray("in_rotation", "hand", "hand_target", "flashlight", "ground_cast", "player_stats", "inventory_ui", "player_ui", "multiplayer_name", "body_mesh", "hot_mic") groups=["Player"]]
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
 mass = 100.0
 gravity_scale = 1.5
 script = ExtResource("1_mtuoh")
+in_rotation = [NodePath("Head/Hand/Gun"), NodePath("Head/Hand/Mop")]
 use_fov_change = true
 use_headbob = true
 bob_freq = 2.2
@@ -158,6 +160,10 @@ mesh = SubResource("CylinderMesh_m3ycw")
 transform = Transform3D(0.9973902, 0.0005620209, 0.0721969, 0.0018257343, 0.9994536, -0.033002567, -0.072176, 0.03304825, 0.99684423, 0.36729527, -0.16438198, -0.41430616)
 
 [node name="Gun" parent="Head/Hand" unique_id=1102124347 instance=ExtResource("5_06tpx")]
+gun_held = false
+
+[node name="Mop" parent="Head/Hand" unique_id=1022487355 instance=ExtResource("6_7g0yx")]
+cleaner_held = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=813920420]
 unique_name_in_owner = true

@@ -22,5 +22,6 @@ limbs_organs_path = Array[String](["res://Imports/TEMP/Scenes/test_limb_organ.ts
 shape = SubResource("CapsuleShape3D_m3ycw")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1400666505 groups=["NPC"]]
+layers = 5
 mesh = SubResource("CapsuleMesh_n0nn8")
 surface_material_override/0 = SubResource("StandardMaterial3D_dvdpe")

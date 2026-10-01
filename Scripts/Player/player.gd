@@ -3,7 +3,9 @@ extends RigidBody3D
 ##quick link to top of script
 func _back_to_vars():
 	pass
-	
+##TODO move to inventory
+@export_category("Move Logic To Inventory")
+@export var in_rotation : Array[Node3D]
 
 @export_category("Movement")
 var speed
@@ -147,7 +149,10 @@ func _process(delta):
 	
 	if(main_player):
 		_check_for_voice()
-	
+		##TODO move to inventory
+		if(Input.is_action_just_pressed("toggle_hand")):
+			in_rotation[0].gun_held = !in_rotation[0].gun_held
+			in_rotation[1].cleaner_held = !in_rotation[1].cleaner_held
 
 func _physics_process(delta):
 	if(main_player):

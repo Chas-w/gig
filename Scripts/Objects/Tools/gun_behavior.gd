@@ -20,7 +20,7 @@ func _input(event: InputEvent) -> void:
 
 func _shot_fired():
 	for s in spray.size():
-		if(spray[s].is_colliding()):
+		if(spray[s].is_colliding() && spray[s].get_collider() != null):
 			if(spray[s].get_collider().is_in_group("NPC")):
 				_process_damage(s,spray[s].get_collider())
 

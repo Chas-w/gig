@@ -6,15 +6,15 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_m3ycw"]
 size = Vector3(3.9938965, 1, 3.9861755)
 
-[node name="Blood Decal" type="Decal" unique_id=730225378]
+[node name="Blood Decal" type="Decal" unique_id=730225378 groups=["Dirty"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0024719238, 0)
 size = Vector3(4, 0.4225464, 4)
 texture_albedo = ExtResource("1_yk7v7")
 cull_mask = 1047554
 script = ExtResource("2_bwlop")
 
-[node name="Cleanable Area" type="Area3D" parent="." unique_id=1787343425 groups=["Blood", "Dirty"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28724283, 0)
+[node name="Cleanable Area" type="Area3D" parent="." unique_id=1787343425 groups=["Dirty"]]
+transform = Transform3D(0.64, 0, 0, 0, 0.64, 0, 0, 0, 0.64, 0, 0.28724283, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Cleanable Area" unique_id=1026442871]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00040531158, 0, 0.001449585)

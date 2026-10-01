@@ -17,17 +17,17 @@ var limbs_spawned : Array[bool]
 @export_category("Movement Stuff")
 @export var aggressive : bool 
 var gun : Node3D
+var dying : bool 
 
 func _ready():
 	health = max_health
 	for i in limbs_organs_path.size():
 		limbs_spawned.append(false)
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _process(delta: float) -> void:
-	if(health <= 0):
+	if(health <= 0 && !dying):
 		_kill_me()
 	_assign_organ_path()
-	
 
 func _injure_me(damage : float):
 	health -= damage
@@ -37,14 +37,12 @@ func _injure_me(damage : float):
 	#TODO reaction
 
 func _kill_me():
-	print(name + " is dead")
 	for i in limbs_organs.size(): 
 		if(!limbs_spawned[i]):
 			var instance = limbs_organs[i].instantiate()
 			get_tree().get_root().add_child(instance)
 			instance.global_position = global_position  
 			limbs_spawned[i] = true
-	#TODO blood
 	if(!emit_blood):
 		var blood_burst = blood_emitter.instantiate()
 		get_tree().get_root().add_child(blood_burst)
@@ -56,8 +54,10 @@ func _kill_me():
 		if(linger_timer > 0):
 			linger_timer -= get_process_delta_time()
 		else:
+			dying = true
+			print(name + " was killed")
 			queue_free()
-	
+
 func _assign_organ_path():
 	if(limbs_organs.size() != limbs_organs_path.size()):
 		for i in limbs_organs_path.size(): 

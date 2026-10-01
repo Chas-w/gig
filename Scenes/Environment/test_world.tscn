@@ -2,9 +2,11 @@
 
 [ext_resource type="Script" uid="uid://47y23r8uek7m" path="res://Scripts/game_manager.gd" id="2_6teb0"]
 [ext_resource type="Script" uid="uid://dnqa7pnc1kwyb" path="res://Scripts/Networks/network_manager.gd" id="3_bx3ek"]
+[ext_resource type="Script" uid="uid://b4rkwfttw6exd" path="res://Scripts/progress_tracker.gd" id="3_qh65d"]
 [ext_resource type="Shader" uid="uid://dqbq6by4bwaim" path="res://Scripts/Shaders/AuroraSky.gdshader" id="4_bx3ek"]
 [ext_resource type="Texture2D" uid="uid://bt47elcjsrylq" path="res://Assets/Gradients/Screenshot 2026-08-12 174812.png" id="5_qh65d"]
 [ext_resource type="PackedScene" uid="uid://mc5fqdr6r5cr" path="res://Imports/TEMP/Scenes/npc_test_dummy.tscn" id="6_qh65d"]
+[ext_resource type="PackedScene" uid="uid://dss4aouklm1fx" path="res://Scenes/NPC/blood_decal.tscn" id="7_mrn4h"]
 
 [sub_resource type="Gradient" id="Gradient_mrn4h"]
 colors = PackedColorArray(0.047058824, 0.8745098, 1, 1, 0, 0, 1, 1)
@@ -59,6 +61,9 @@ albedo_texture = SubResource("NoiseTexture2D_6teb0")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=384384294]
 environment = SubResource("Environment_8i32u")
+
+[node name="Progress Tracker" type="Node" parent="." unique_id=41078143]
+script = ExtResource("3_qh65d")
 
 [node name="Game Manager" type="Node" parent="." unique_id=1116847051]
 script = ExtResource("2_6teb0")
@@ -230,10 +235,14 @@ surface_material_override/0 = SubResource("StandardMaterial3D_4tm0c")
 shape = SubResource("BoxShape3D_dyyqa")
 
 [node name="NPC Test Dummy" parent="." unique_id=764042304 instance=ExtResource("6_qh65d")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.881095, 1.5081208, 9.364121)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2830038, 1.5081208, 9.364121)
 
 [node name="NPC Test Dummy2" parent="." unique_id=503861181 instance=ExtResource("6_qh65d")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0416183, 1.5081208, 9.364121)
+
+[node name="Blood Decal" parent="." unique_id=730225378 instance=ExtResource("7_mrn4h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5427308, -10.458183)
+done_spread = true
 
 [connection signal="pressed" from="Multiplayer HUD/Panel/VBoxContainer/Host" to="Game Manager" method="attempt_host"]
 [connection signal="pressed" from="Multiplayer HUD/Panel/VBoxContainer/Join As Client" to="Game Manager" method="attempt_join_as_client"]
