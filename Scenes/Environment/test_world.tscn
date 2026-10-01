@@ -215,6 +215,8 @@ mesh = SubResource("BoxMesh_o4uhr")
 
 [node name="Ground" type="StaticBody3D" parent="Collisions" unique_id=865593124]
 transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, 0, 0)
+collision_layer = 3
+collision_mask = 3
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Collisions/Ground" unique_id=1938136835 groups=["Land"]]
 layers = 3
