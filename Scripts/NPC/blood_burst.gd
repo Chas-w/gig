@@ -28,6 +28,5 @@ func _process(delta):
 			get_tree().get_root().add_child(splatter)
 			splatter.position = downcasts[i].get_collision_point()
 			checked_this_downcast[i] = true
-			print("SPLATTER PLACED")
 		if (i >= downcasts.size() - 1):
 			ready_to_remove = true

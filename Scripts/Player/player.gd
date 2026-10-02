@@ -3,6 +3,7 @@ extends RigidBody3D
 ##quick link to top of script
 func _back_to_vars():
 	pass
+
 ##TODO move to inventory
 @export_category("Move Logic To Inventory")
 @export var in_rotation : Array[Node3D]
@@ -56,16 +57,12 @@ const WALK_F_CHANGE = 1.5
 var fov_change := 0
 
 @export_category("UI Elements")
-@onready var interaction_text = %InteractionText
 @export var player_stats : Control
-@export var inventory_ui : Control
 @export var player_ui : CanvasLayer
 
 @export_category("Player Data Info")
 @export var health : float
-@export var inventory_size : int = 8 #DO NOT CHANGE
 var status_dictionary
-var inventory_dictionary 
 var database
 var time_to_autosave_max = 600
 var autosave_timer
@@ -83,6 +80,9 @@ const SAMPLE_RATE: int = 48000
 var voice_playback : AudioStreamGeneratorPlayback = null
 @export var is_open_mic := true #defaulting to on
 @export var hot_mic : TextureRect
+
+@export_category("Hold Data")
+@export var hold_spot : Marker3D
 
 func _load_in():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)  
@@ -107,12 +107,10 @@ func _setup_local_player():
 		body_mesh.set_layer_mask_value(1,false)
 		multiplayer_name.set_layer_mask_value(20,true)
 		multiplayer_name.set_layer_mask_value(1,false)
-		inventory_ui.main_inventory = true
 		player_stats.main_player = true
 	else:
 		%Camera3D.visible = false
 		%PhantomCamera3D.visible = false
-		inventory_ui.main_inventory = false
 		%InventoryUI.visible = false
 		player_stats.main_player = false
 		%PlayerStats.visible = false
@@ -125,18 +123,15 @@ func _setup_local_player():
 	for game_obj in get_tree().get_nodes_in_group("Database"): #assign database
 		database = game_obj
 	status_dictionary = database._JSON_to_dictionary(database.player_status_path)
-	inventory_dictionary = database._JSON_to_dictionary(database.player_inventory_path)
 	
 	#spawn location
 	position = Vector3(status_dictionary.Position[0],status_dictionary.Position[1],status_dictionary.Position[2])
 
 func _ready():
 	_setup_local_player()
-	if (inventory_ui.main_inventory):
-		inventory_ui.setup_inventory(self)
+
 	if player_stats.main_player:
 		player_stats.setup(self, 100.0, 100.0)
-	interaction_text.text = ""
 	_record_voice(true) #default microphone toggled ON
 	_setup_stream() #this function is where the audio data is being called
 
@@ -145,7 +140,6 @@ func _process(delta):
 	%SubViewportContainer.material.set("shader_parameter/dither_pattern", database.dither_pattern_slider.value)
 
 	_handle_saving()
-	_handle_picking_up()
 	
 	if(main_player):
 		_check_for_voice()
@@ -245,7 +239,7 @@ func _process_voice_data(voice_data: PackedByteArray) -> void:
 
 func _input(event):
 	#region Mouse Head Rotation
-	if event is InputEventMouseMotion && main_player && !database.pause_game && !inventory_ui.is_open:
+	if event is InputEventMouseMotion && main_player && !database.pause_game:
 		head.rotate_y(-event.relative.x * SENSITIVITY)
 		p_cam.rotate_x(-event.relative.y * SENSITIVITY)
 		p_cam.rotation.x = clamp(p_cam.rotation.x, deg_to_rad(-40), deg_to_rad(60))
@@ -259,23 +253,6 @@ func _input(event):
 		if(event.is_action_released("push to talk")):
 			_record_voice(false)
 	#endregion
-
-#region Inventory
-func _handle_picking_up():
-	#Found object to grab
-	if camera_cast.is_colliding():
-		var collider = camera_cast.get_collider()
-		interaction_text.text = "press 'e' to pick up."
-		
-		#Pick objects up with "E"
-		if Input.is_action_just_pressed("interact"):
-			_handle_adding_inventory(collider)
-			interaction_text.text = ""
-	#Did not find an object
-	else:
-		if interaction_text.text != "":
-			interaction_text.text = ""
-#endregion
 
 func _headbob(time) -> Vector3:
 	var pos = Vector3.ZERO
@@ -324,17 +301,6 @@ func _handle_movement(delta):
 		var target_fov = BASE_FOV + fov_change * velocity_clamped
 		camera.fov = lerp(camera.fov, target_fov, delta * 8.0)
 
-func _handle_adding_inventory(target_item): ##handles adding an item to your inventory
-	if(!target_item.permanent && inventory_ui.get_script != null):
-		inventory_ui.insert_item(target_item.pick_up())
-		#inventory_dictionary.Removable.append(target_item.ID)
-	else:
-		#this is called when the player grabs a permanent item
-		pass
-
-func consume_item(current_item: InvItem):
-	player_stats.update_health_bar(current_item.health_points)
-
 func _handle_saving():
 	if (database.saving):
 		_update_JSON_data()
@@ -360,4 +326,3 @@ func _update_JSON_data():
 	status_dictionary.Position[2] = global_position.z
 	
 	database._save_JSON_file(database.player_status_path, status_dictionary)
-	database._save_JSON_file(database.player_inventory_path, inventory_dictionary)

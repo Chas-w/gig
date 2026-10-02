@@ -31,5 +31,4 @@ func _process(delta: float) -> void:
 	#TODO add more checks and systems for if this is cleaned or not 
 	#NOTE not all tools can completely clean all MESS
 	if(dirty_amt <= dirty_margin_of_error):
-		print("CLEANED " + name)
 		queue_free()
