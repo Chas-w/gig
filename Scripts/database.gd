@@ -6,7 +6,6 @@ var player_status_path = "res://DATA/STATUS.json"
 @export_category("Multiplayer")
 @export var players : Array[RigidBody3D]
 
-
 @export_category("Pause Menu")
 @export var menu_ui : Control
 @export var save_game : Button

@@ -7,6 +7,7 @@ func _back_to_vars():
 ##TODO move to inventory
 @export_category("Move Logic To Inventory")
 @export var in_rotation : Array[Node3D]
+var rotation_ID := 2
 
 @export_category("Movement")
 var speed
@@ -29,7 +30,6 @@ var t_bob = 0.0
 @onready var head = %Head
 @onready var camera = %Camera3D
 @onready var p_cam = %PhantomCamera3D
-@onready var camera_cast = %CameraCast
 
 @export_category("Tools")
 ##higher number means quicker follow
@@ -78,7 +78,7 @@ var main_player := true
 const SAMPLE_RATE: int = 48000
 @export var current_sample_rate: int = SAMPLE_RATE
 var voice_playback : AudioStreamGeneratorPlayback = null
-@export var is_open_mic := true #defaulting to on
+@export var is_open_mic := false #defaulting to off
 @export var hot_mic : TextureRect
 
 @export_category("Hold Data")
@@ -132,7 +132,7 @@ func _ready():
 
 	if player_stats.main_player:
 		player_stats.setup(self, 100.0, 100.0)
-	_record_voice(true) #default microphone toggled ON
+		_record_voice(is_open_mic)
 	_setup_stream() #this function is where the audio data is being called
 
 func _process(delta):
@@ -143,10 +143,26 @@ func _process(delta):
 	
 	if(main_player):
 		_check_for_voice()
-		##TODO move to inventory
+		
+		##ALERT move to inventory and make robust (HAND LOGIC)
 		if(Input.is_action_just_pressed("toggle_hand")):
-			in_rotation[0].gun_held = !in_rotation[0].gun_held
-			in_rotation[1].cleaner_held = !in_rotation[1].cleaner_held
+			if(rotation_ID < 2):
+				rotation_ID += 1
+			elif (rotation_ID == 2):
+				rotation_ID = 0
+			if(rotation_ID == 0): #gun held
+				in_rotation[0].gun_held = true
+				in_rotation[1].cleaner_held = false
+				in_rotation[2].hand_empty = false
+			if (rotation_ID == 1): #mop held
+				in_rotation[0].gun_held = false
+				in_rotation[1].cleaner_held = true
+				in_rotation[2].hand_empty = false
+			if(rotation_ID == 2): #hand is ready to grab
+				in_rotation[0].gun_held = false
+				in_rotation[1].cleaner_held = false
+				in_rotation[2].hand_empty = true
+
 
 func _physics_process(delta):
 	if(main_player):

@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://lk3msepm7cya"]
+
+[ext_resource type="Script" uid="uid://b1kb6w7s4bx3r" path="res://Scripts/Player/grabby_hand_behavior.gd" id="1_mhuht"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dyyqa"]
+
+[node name="Grabby Hand" type="Node3D" unique_id=1015465123]
+transform = Transform3D(1.0000005, 9.313226e-10, 5.2154064e-08, 2.3283064e-10, 1, 0, 0, 0, 1.0000005, 0, 0, 0)
+script = ExtResource("1_mhuht")
+
+[node name="Pickup Cast" type="ShapeCast3D" parent="." unique_id=87878089]
+unique_name_in_owner = true
+transform = Transform3D(0.9973899, 0.0018257342, -0.07217602, 0.0005620202, 0.99945366, 0.033048254, 0.07219687, -0.03300256, 0.9968439, -0.44855374, 0.52849054, 1.105185)
+shape = SubResource("BoxShape3D_dyyqa")
+target_position = Vector3(0, 0, -5)
+collision_mask = 7

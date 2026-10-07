@@ -4,7 +4,7 @@
 
 [sub_resource type="SphereMesh" id="SphereMesh_dyyqa"]
 
-[node name="TestLimbOrgan" type="RigidBody3D" unique_id=2090345196]
+[node name="TestLimbOrgan" type="RigidBody3D" unique_id=2090345196 groups=["Body_Part", "Pickup"]]
 transform = Transform3D(0.49, 0, 0, 0, 0.49, 0, 0, 0, 0.49, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1975358752]

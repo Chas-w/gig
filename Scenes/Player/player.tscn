@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bt47elcjsrylq" path="res://Assets/Gradients/Screenshot 2026-08-12 174812.png" id="5_0u5uq"]
 [ext_resource type="PackedScene" uid="uid://1offvjmg1qyg" path="res://Scenes/Player/Tools/gun.tscn" id="5_06tpx"]
 [ext_resource type="PackedScene" uid="uid://bwnvbuhk51k18" path="res://Scenes/Player/Tools/mop.tscn" id="6_7g0yx"]
+[ext_resource type="PackedScene" uid="uid://lk3msepm7cya" path="res://Scenes/Player/grabby_hand.tscn" id="7_oikmp"]
 [ext_resource type="Texture2D" uid="uid://717rw2kyj14g" path="res://Imports/TEMP/UI/Crosshairs_Red.svg.webp" id="10_06tpx"]
 [ext_resource type="Script" uid="uid://b2ohe8lsij56a" path="res://Scripts/Player/player_stats.gd" id="12_oikmp"]
 
@@ -71,7 +72,7 @@ axis_lock_angular_z = true
 mass = 100.0
 gravity_scale = 1.5
 script = ExtResource("1_mtuoh")
-in_rotation = [NodePath("Head/Hand/Gun"), NodePath("Head/Hand/Mop")]
+in_rotation = [NodePath("Head/Hand/Gun"), NodePath("Head/Hand/Mop"), NodePath("Head/Hand/Grabby Hand")]
 use_fov_change = true
 use_headbob = true
 bob_freq = 2.2
@@ -150,6 +151,9 @@ gun_held = false
 [node name="Mop" parent="Head/Hand" unique_id=1022487355 instance=ExtResource("6_7g0yx")]
 cleaner_held = true
 
+[node name="Grabby Hand" parent="Head/Hand" unique_id=1015465123 instance=ExtResource("7_oikmp")]
+transform = Transform3D(1.0000005, -2.3283053e-10, -2.8272748e-27, 2.3283064e-10, 1, 0, 2.8272748e-27, -6.582756e-37, 1.0000005, 0.05261427, -0.35071278, -0.7241295)
+
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=813920420]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_fvyv6")
@@ -179,12 +183,6 @@ process_priority = 300
 process_physics_priority = 300
 script = ExtResource("2_htcer")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
-
-[node name="CameraCast" type="RayCast3D" parent="SubViewportContainer/SubViewport/Camera3D" unique_id=892649074]
-unique_name_in_owner = true
-target_position = Vector3(0, 0, -5)
-collision_mask = 4
-collide_with_areas = true
 
 [node name="Body" type="MeshInstance3D" parent="." unique_id=103819521]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

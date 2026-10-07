@@ -6,8 +6,11 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vg4gt"]
 albedo_color = Color(1, 0, 1, 1)
+stencil_flags = 2
+stencil_color = Color(1, 1, 1, 1)
+stencil_outline_thickness = 0.21
 
-[node name="TestLimbOrgan" type="RigidBody3D" unique_id=2090345196]
+[node name="TestLimbOrgan" type="RigidBody3D" unique_id=2090345196 groups=["Body_Part", "Pickup"]]
 transform = Transform3D(0.365, 0, 0, 0, 0.365, 0, 0, 0, 0.365, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1975358752]
